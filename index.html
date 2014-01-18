@@ -75,6 +75,9 @@
 		</div>
 	</div>
 	
+	<!-- empty div for tooltips -->
+	<div id="construct_tooltip"> </div>
+	
 	<!--<div id="" class="span10 offset1">
     	<button type="button" id="btn-next-2" class="btn btn-success btn-large btn-next-2" >Nächstes set</button>
 	</div>
@@ -133,10 +136,6 @@
 		delete_ungrouped_constructs();
 		add_new_constructs(information.constructs, numberOfConstructs, counter);
 		constructCounter = counter + numberOfConstructs;	// update global variable
-		$(".construct_pole_opposite").tooltip({
-				placement: 'right',
-				container: "#construct_5"
-		});
 	}
 	
 	// make draggable
@@ -184,6 +183,10 @@
 				update_constructs(information.noOfConstructsShown, constructCounter);
 	  			add_target_jumping();	
 			}
+			$(".construct_pole_opposite").tooltip({
+				placement: 'right',
+				container: "#construct_tooltip"
+			});
 		});		
 		// trigger function first time
 		$("#btn-next-2").trigger("click");
