@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>CrowdClustering</title>
+		<meta name="author" content="Mark Heckmann" />
+		
+		<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.css"/>
+    	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+    	<link rel="stylesheet" href="css/css.css"/>
+    		
+		<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+		<script src="js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+		<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="hyphenator/Hyphenator.js" type="text/javascript"></script>
+	    <script src="js/js.js" type="text/javascript"></script>
+
+		<!-- <script src="js/hyphenate.js" type="text/javascript"></script> -->
+	<script>
+
+/* Ausgangspunkt: wir bekommen ein JSON Objekt bereitgestellt, das die Anzahl der zu zeigenden als auch die 
+ * Konstrukte selbst enthält
+ */
+	// Nimmt das construct Array, die Referenz und den Range 
+	function prepare_data (constructArray, referenceConstructIndex, rangeAroundReferenceConstruct) {
+		// extract relevant constructs
+		var startPos = referenceConstructIndex - rangeAroundReferenceConstruct;
+		var endPos = referenceConstructIndex + rangeAroundReferenceConstruct;
+		var cons = constructArray.slice(startPos, endPos);
+		var refCon = cons.splice(rangeAroundReferenceConstruct, 1);
+		var res = { "noOfConstructsShown" : 8,
+		   		    "referenceConstruct" : refCon,
+					"constructs": cons};
+		return res;
+	}
+	
+	
+	// ---------------------------- //
+		// Info Objekt erstellen
+		/*var information = { "noOfConstructsShown" : 5,
+							"referenceConstruct" : referenceConstruct,
+						    "constructs": constructs2}; */
+
+	var information = prepare_data(constructs2, 30, 10);
+	//alert(JSON.stringify(information));
+	
+	// Anzahl der gleichzeitig zu zeigenden Konstrukte	    
+	var useConstructs = 10;
+	
+	// Anzahl der Konstrukte, die bereits gezeigt wurden
+	var constructCounter = 0;
+	
+	 // qualitative color palette to distinguiosh colors for clusters
+	var colors = new Array("#E495A5", "#E09992", "#D89F7F", "#CCA570", "#BDAB66", "#ABB065", "#96B56C", "#7EB97A",
+	 						"#65BC8C", "#4BBE9E", "#39BEB1", "#3DBCC2", "#55B8D0", "#73B2DB", "#91ACE1", "#ACA4E2",
+							"#C29DDE", "#D297D5", "#DE94C8", "#E393B7");
+	var colorCounter = 0;  // count how many colors are in use
+	var defaultColor = "#F2F2F2";
+
+	</script>		
+	</head>
+	<body>
+	
+<!--	<div class="navbar">
+	  <div class="navbar-inner">
+	    <div style="display: inline-block;"> 
+	        <button type="button" id="btn-next-2" class="btn btn-success btn-large btn-next-2" >Nächstes set</button>
+	    </div> 
+	  </div>
+</div> -->
+	<div id="div_btn" class="row-fluid">
+		<div class="span10 offset1">
+    	<button type="button" id="btn-next-2" class="btn btn-success btn-large btn-next-2" >Weitere Beschreibungen</button>
+		</div>
+	</div>
+	
+	<!--<div id="" class="span10 offset1">
+    	<button type="button" id="btn-next-2" class="btn btn-success btn-large btn-next-2" >Nächstes set</button>
+	</div>
+	 <button class="btn btn-large btn-danger btn-delete" type="button"
+			onclick='delete_old_constructs("#ungrouped_container");' >Löschen</button> -->
+
+	<div id="description_row" class="row-fluid">
+		<div id="ungrouped_description" class="span10 offset1">
+			<p id="question">Welche Beschreibungen passen thematisch mit nach unten?</p>
+		</div>
+	</div>
+	<div id="ungrouped_row" class="row-fluid">
+		<div id="ungrouped_container" class="span10 offset1"> </div>
+	</div>
+	
+	<div id="grouped_row" class="row-fluid">
+		<div id="grouped_container" class="span10 offset1">	</div>
+	</div>
+		
+	<script>
+	
+
+	/* Container für die Elemente. Alle enthaltenen Konstrukte werden gelöscht
+	 * und neue Konstrukte hinzugefügt
+	 */
+	
+	// lösche alle children der Klasse construct_div_2
+	function delete_old_constructs() {
+		//var id = el + "." + "construct_div_2";
+		$(".construct_div_2").remove();
+	}
+	
+	function delete_ungrouped_constructs() {
+		$(".ungrouped").remove();
+	}
+	// füge children hinzu
+	//
+	function add_new_constructs (constructArray, numberOfConstructs, positionInArray) {
+		/*var numberOfConstructs = 7;
+	      var positionInArray = 0;
+	      var constructArray = information.constructs;*/  
+		var cc = $("#ungrouped_container");
+		var min = positionInArray;
+		var max = min + numberOfConstructs;
+		if (max > constructArray.length)
+			max = constructArray.length;
+		for (var i = min; i < max; i++) {
+			var poles = constructArray[i];
+			var con = create_new_construct_box(poles[0], poles[1], i);
+			$(con).addClass("ungrouped");
+			cc.append(con);				
+		}
+	}
+	
+	function update_constructs (numberOfConstructs, counter) {
+		delete_ungrouped_constructs();
+		add_new_constructs(information.constructs, numberOfConstructs, counter);
+		constructCounter = counter + numberOfConstructs;	// update global variable
+	}
+	
+	// make draggable
+	function make_current_constructs_draggable () {
+		$(".construct_div_2").draggable( { });
+	};
+
+	
+	function add_reference_construct(a) {
+		var ctb = $("#grouped_container");
+		var refcon = create_new_construct_box(a[0][0], a[0][1], id="reference");
+		ctb.append(refcon);
+	};
+	
+
+	function add_target_jumping () {
+		$(".construct_div_2").unbind('click').click(function() {
+			var id = $(this).parent().attr("id");
+			var target;
+			if (id == "ungrouped_container") {
+				target = "#grouped_container";
+				$(this).removeClass("ungrouped")
+				       .addClass("grouped")
+				       .css("background-color", convertHex('#FF0000',10));
+			} else {
+				target = "#ungrouped_container";
+				$(this).removeClass("grouped")
+				       .addClass("ungrouped")
+				       .css("background-color", "#f2f2f2"); //convertHex('#00FF00',10));
+			}	
+	    	$(this).detach().appendTo(target);
+	    });	
+	};
+	
+		
+	
+	// after loading
+	$(function() {
+		add_reference_construct(information.referenceConstruct);
+		// Add button events
+		$( "#btn-next-2" ).click(function() {
+			if (constructCounter >= information.constructs.length )
+				switch_to_evaluate_mode();
+			else {
+				update_constructs(information.noOfConstructsShown, constructCounter);
+	  			add_target_jumping();	
+			}
+		});		
+		// trigger function first time
+		$("#btn-next-2").trigger("click");
+		$(".construct_pole_opposite").tooltip({
+				placement: 'right',
+				container: "#construct_5"
+		});
+		$("#construct_reference")
+			 .css("background-color", convertHex('#FF0000',10));
+	});
+	
+
+
+	function switch_to_evaluate_mode () {
+		delete_ungrouped_constructs();
+		$("#question").text("Schauen Sie alle Beschreibungen in Ruhe an und entfernen sie ggf. unpassende");
+		$(".btn-next-2").text("Okay, jetzt passt alles zusammen!")
+						.unbind().click(function() {
+							switch_to_label_mode();
+						});
+	};
+	
+	function switch_to_label_mode () {
+		delete_ungrouped_constructs();
+		$(".construct_div_2").unbind('click');  // kein Herausnehmen mehr
+		$("#question").text("Fassen Sie alle Beschreibungen in eine einzige zusammen");
+		$(".btn-next-2").text("Ja, das Label ist eine gute Zusammenfassung")
+						.unbind().click(function() {
+							switch_to_end_mode();
+						});
+						
+		$("#ungrouped_container").append('<div id="div_input"> <input id="input_field" type="text" name="input_field"></div>');
+	};
+
+	
+	function switch_to_end_mode() {
+		window.location.reload();
+	};
+	 </script>
+	 <div style="clear:both;"> </div>
+
+	</body>
+	<footer>
+			<script type="text/javascript">
+            Hyphenator.run();
+	</script>
+	</footer>
+</html>

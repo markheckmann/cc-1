@@ -1,0 +1,158 @@
+	#div_input {
+		text-align: center;
+	}
+	
+	#input_field {
+		width: 80%;
+		height: 60px;	
+		font-size:24px;
+	}
+	
+	#div_btn {
+		text-align: center;
+	}
+	
+	#ungrouped_description {
+		float: left;
+		text-align: center;
+		height: 40px;
+	}
+	
+	#ungrouped_description p {
+		color: black;
+		font-size: 20pt;
+	}
+	
+	.navbar-inner {
+		height: 100px;
+		text-align:center;
+	}
+	
+
+	#box_outer {
+		background-color: #F2F2F2;
+		border: solid 4px #ccc;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		font-family: Arial, Helvetica, sans-serif;
+		width: 200px;
+	}
+	#box_left {
+		width: 95%;
+		float: left;
+	}
+	#box_right {
+		float: left;
+	}
+	
+	#ungrouped_container {
+		background-color: #F2F2F2;
+		width: 100% - 0px;
+		height: 150px;
+		padding: 30px 30px 30px 30px ;
+		margin-bottom: 20px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+	}
+	
+	#grouped_container {
+		background-color: #F2F2F2;
+		width: 100%  - 0px;
+		height: 400px;
+		padding: 30px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+	}
+	
+	.construct_pole1 {
+		color: black;
+		float: left;
+	}
+	.construct_pole2 {
+		color: #999;
+	}
+	
+	
+	.construct_div_2 {
+		margin: 2px;
+		padding: 5px;
+		width: 220px;
+		height: 40px;
+		line-height: 1em;
+		float: left;
+		font-size: 100%;
+		background-color: #F2F2F2;
+		border: solid 4px #ccc;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	
+	.clear_float {
+		clear: both;
+	}
+	
+	.construct_pole_emergent {
+		width: 90%;
+		float: left;	
+	}
+	
+	.construct_pole_opposite {
+		float: left;
+		/*background-color: red;*/
+		height: 100%;
+		width:10%;
+	    text-align: center;
+	}
+	
+	div[class="tooltip-inner"] {
+	    width: 250px;
+	    text-align: left;
+	       /* background-color: #303030;*/
+	    font-size: 12px;
+	    /*padding: 10px 10px 5px 10px;*/
+	    /*border: 1px solid white;*/
+	    box-shadow: 3px 3px 5px #CCC;
+	}
+	
+	.ungrouped_container {
+	    /*width:600px;
+	    height: 300px; 
+	    background-color: red; 
+	    column-count: 2;
+	    column-gap: 20px;
+	    height: 350px; */
+	}
+	
+	/*.construct_pole_opposite:hover {
+		color: red;
+	}*/
+	
+	.btn-next-2 {
+		margin: 10px 0px 30px 0px ;
+	    width: 100%;
+	    height: 70px;
+	    font-size: 250%;
+	    /*height:20px;
+	    width:250px; 
+	    background-color:#cf8; */
+	}
+	
+	.construct_container {
+	    width:600px;
+	    height:400px;
+	    position:absolute;
+	    left:50%;
+	    top:50%;
+	    margin:-200px 0 0 -300px;
+	    background-color: red;
+	}
+	.themes {
+		width: 250px;
+		height:250px;
+		border: #ddd dotted 4px;
+		float: left;
+		margin:10px;
+		border-radius: 10px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
