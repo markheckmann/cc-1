@@ -42,7 +42,7 @@
 							"referenceConstruct" : referenceConstruct,
 						    "constructs": constructs2}; */
 
-	var information = prepare_data(constructs2, 30, 10);
+	var information = prepare_data(constructs2, 40, 10);  // 30 gut
 	//alert(JSON.stringify(information));
 	
 	// Anzahl der gleichzeitig zu zeigenden Konstrukte	    
@@ -176,7 +176,9 @@
 	$(function() {
 		add_reference_construct(information.referenceConstruct);
 		// Add button events
-		$( "#btn-next-2" ).click(function() {
+		$( "#btn-next-2" )
+			.prop('disabled', false)
+			.click(function() {
 			if (constructCounter >= information.constructs.length )
 				switch_to_evaluate_mode();
 			else {
@@ -187,6 +189,7 @@
 				placement: 'right',
 				container: "#construct_tooltip"
 			});
+			
 		});		
 		// trigger function first time
 		$("#btn-next-2").trigger("click");
@@ -212,9 +215,19 @@
 		$(".btn-next-2").text("Ja, das Label ist eine gute Zusammenfassung")
 						.unbind().click(function() {
 							switch_to_end_mode();
-						});
+						})
+						.prop('disabled', true);
 						
-		$("#ungrouped_container").append('<div id="div_input"> <input id="input_field" type="text" name="input_field"></div>');
+		$("#ungrouped_container").
+			append('<div id="div_input"> <input id="input_field" type="text" name="input_field"></div>');
+		$("#input_field")
+			.focus()
+			.keypress(function() {
+				if ($(this).val().length >= 10) 
+					$(".btn-next-2").prop('disabled', false);
+				else
+					$(".btn-next-2").prop('disabled', true);
+			});
 	};
 
 	
