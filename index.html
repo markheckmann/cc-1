@@ -133,6 +133,10 @@
 		delete_ungrouped_constructs();
 		add_new_constructs(information.constructs, numberOfConstructs, counter);
 		constructCounter = counter + numberOfConstructs;	// update global variable
+		$(".construct_pole_opposite").tooltip({
+				placement: 'right',
+				container: "#construct_5"
+		});
 	}
 	
 	// make draggable
@@ -183,10 +187,6 @@
 		});		
 		// trigger function first time
 		$("#btn-next-2").trigger("click");
-		$(".construct_pole_opposite").tooltip({
-				placement: 'right',
-				container: "#construct_5"
-		});
 		$("#construct_reference")
 			 .css("background-color", convertHex('#FF0000',10));
 	});
